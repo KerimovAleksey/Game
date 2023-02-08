@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class FightComponent : MonoBehaviour
 {
-	[SerializeField] private int _health;
-	[SerializeField] private int _damage;
+	private int _health;
+	private int _damage;
 	[SerializeField] private CubeData cubeStats;
 
 	public int Score = 0;
 
 	private FightComponent _enemyFightComponent;
+
 	private int maxGetDamageValue = 50;
 
 	private void Awake()
