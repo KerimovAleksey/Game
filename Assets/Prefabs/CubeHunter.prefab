@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4388373825113586777}
   - component: {fileID: 6461410496170295544}
   - component: {fileID: 9049777999001972019}
+  - component: {fileID: 5003665769870985730}
   m_Layer: 0
   m_Name: CubeHunter
   m_TagString: Untagged
@@ -151,3 +152,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5003665769870985730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4388373825113586780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f158feeba7960f4c9bdadb1e8086d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 0
+  _damage: 0
+  cubeStats: {fileID: 11400000, guid: 1ee77ec3426684a49b4f2afc373c7cc4, type: 2}

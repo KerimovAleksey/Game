@@ -12,6 +12,7 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private GameObject _currentTarget;
 	private NavMeshAgent _agent;
+	private FightComponent _thisFightComponent;
 
 	private float _delayAttack = 0.1f;
 	private float _timeRepeatAttack = 2f;
@@ -20,6 +21,7 @@ public class CubeHunterComponent : MonoBehaviour
 	private void Awake()
 	{
 		_agent = GetComponent<NavMeshAgent>();
+		_thisFightComponent= GetComponent<FightComponent>();
 	}
 
 	private void Start()
@@ -34,36 +36,44 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private void Update()
 	{
-		_agent.SetDestination(_currentTarget.transform.position);
+		if (_currentTarget)
+		{
+			_agent.SetDestination(_currentTarget.transform.position);
+		}
+		else
+		{
+			GetNewTarget();
+		}
 	}
 
 
-	private void DealDamage()
-	{
-		Debug.Log("Attack!");
-
-	}
 
 	private void GetNewTarget()
 	{
-		_currentTarget = CubeList[Random.Range(0, CubeCount - 1)];
-		
+		_currentTarget = CubeList[Random.Range(0, CubeList.Count)];
+		if (_currentTarget == gameObject) // Для повторного выбора цели, если объект выбрал сам себя
+		{
+			Invoke("GetNewTarget", 0.1f);
+		}
 	}
 
-
-
+	
 	private void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject == _currentTarget)
 		{
-			InvokeRepeating("DealDamage", _delayAttack, _timeRepeatAttack);
+			var objStats = _currentTarget.GetComponent<FightComponent>();
+			_thisFightComponent.GetEnemyFightComponent(objStats);
+
+			_thisFightComponent.InvokeRepeating("DealDamage", _delayAttack, _timeRepeatAttack);
 		}
 	}
 	private void OnCollisionExit(Collision collision)
 	{
 		if (collision.gameObject == _currentTarget)
 		{
-			CancelInvoke("DealDamage");
+			CancelInvoke();
 		}
 	}
+
 }
