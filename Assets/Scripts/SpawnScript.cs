@@ -9,8 +9,12 @@ public class SpawnScript : MonoBehaviour
     {
         for (int i = 0; i < _numberOfCubes; i++)
         {
-            Instantiate(_cube);
-
+            SpawnCube();
 		}
     }
+
+    private void SpawnCube()
+    {
+		Instantiate(_cube);
+	}
 }

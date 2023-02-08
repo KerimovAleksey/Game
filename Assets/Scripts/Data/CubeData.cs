@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
-[Serializable]
+[CreateAssetMenu]
 public class CubeData : ScriptableObject
 {
-	[SerializeField] private int _health = 100;
-	[SerializeField] private int _damage = UnityEngine.Random.Range(5, 50);
+	public int Health = 100;
+	public int Damage;
 }
