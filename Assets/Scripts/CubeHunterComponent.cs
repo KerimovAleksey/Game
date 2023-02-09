@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class CubeHunterComponent : MonoBehaviour
 {
+	
 	static int CubeCount = 0;
-	static List<GameObject> CubeList = new List<GameObject>();
 
+	public static List<GameObject> CubeList = new List<GameObject>();
+	
 	public int CubeNumber;
 
 	private GameObject _currentTarget;
@@ -22,14 +25,14 @@ public class CubeHunterComponent : MonoBehaviour
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		_thisFightComponent= GetComponent<FightComponent>();
+
+		CubeList.Add(gameObject);
+		CubeCount++;
+		CubeNumber = CubeCount;
 	}
 
 	private void Start()
 	{
-		CubeList.Add(gameObject);
-		CubeCount++;
-		CubeNumber = CubeCount;
-
 		GetNewTarget();
 	}
 
@@ -43,7 +46,7 @@ public class CubeHunterComponent : MonoBehaviour
 		{
 			GetNewTarget();
 		}
-
+		
 	}
 
 
@@ -74,6 +77,24 @@ public class CubeHunterComponent : MonoBehaviour
 		{
 			CancelInvoke();
 		}
+	}
+
+	public Dictionary<int, int> ReturnDictOfCubes()
+	{
+		
+		Dictionary<int, int> dict = new Dictionary<int, int>();
+
+		for (int i = 0; i < CubeList.Count; i++)
+		{
+			FightComponent objComponent;
+
+			if (CubeList[i] != null)
+			{
+				objComponent = CubeList[i].GetComponent<FightComponent>();
+				dict.Add(objComponent.Number, objComponent.Score);
+			}
+		}
+		return dict;
 	}
 
 }
