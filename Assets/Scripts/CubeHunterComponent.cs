@@ -27,7 +27,6 @@ public class CubeHunterComponent : MonoBehaviour
 	private void Start()
 	{
 		CubeList.Add(gameObject);
-		transform.position = new Vector3(Random.Range(-19f,19f),0.5f, Random.Range(-19f, 19f)); // Задаём случайную позицию появления куба-охотника
 		CubeCount++;
 		CubeNumber = CubeCount;
 
