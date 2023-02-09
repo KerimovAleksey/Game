@@ -19,9 +19,9 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private float _delayAttack = 0.1f;
 	private float _timeRepeatAttack = 2f;
-	
 
-	private void Awake()
+	
+	private void OnEnable()
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		_thisFightComponent= GetComponent<FightComponent>();
@@ -91,7 +91,10 @@ public class CubeHunterComponent : MonoBehaviour
 			if (CubeList[i] != null)
 			{
 				objComponent = CubeList[i].GetComponent<FightComponent>();
-				dict.Add(objComponent.Number, objComponent.Score);
+				if (!dict.ContainsKey(objComponent.Number))
+				{
+					dict.Add(objComponent.Number, objComponent.Score);
+				} 
 			}
 		}
 		return dict;

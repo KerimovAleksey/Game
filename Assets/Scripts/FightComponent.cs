@@ -61,6 +61,7 @@ public class FightComponent : MonoBehaviour
 		if (_health <= 0)
 		{
 			Destroy(gameObject);
+			//gameObject.SetActive(false); // Попытка сделать pool объектов (см. текстовый файл - "Описание к проекту")
 			return true;
 		}
 		return false;

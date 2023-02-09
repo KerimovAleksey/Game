@@ -4,5 +4,5 @@ using UnityEngine;
 public class CubeData : ScriptableObject
 {
 	public int Health = 100;
-	public int Damage;
+	public int Damage = 2;
 }
