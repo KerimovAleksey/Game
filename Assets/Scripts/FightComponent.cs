@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +5,13 @@ public class FightComponent : MonoBehaviour
 {
 	[SerializeField] private CubeData cubeStats;
 	[SerializeField] private CanvasInfoComponent _labelInfo;
+	[SerializeField] private CubeHunterComponent _cubeNumber;
+
 
 	private FightComponent _enemyFightComponent;
 	private Renderer _matColor;
+
+	public int Number;
 
 	private int _health;
 	private int _damage;
@@ -18,10 +21,15 @@ public class FightComponent : MonoBehaviour
 
 	private void Awake()
 	{
+		
 		_matColor= GetComponent<Renderer>();
 		_health = cubeStats.Health;
 		_damage = cubeStats.Damage;
 		_labelInfo.UpdateScore(Score, _damage);
+	}
+	private void Start()
+	{
+		Number = _cubeNumber.CubeNumber;
 	}
 
 	public void DealDamage()
@@ -71,5 +79,7 @@ public class FightComponent : MonoBehaviour
 			_damage += 2;
 		}
 		_labelInfo.UpdateScore(Score, _damage);
+		
 	}
+
 }
