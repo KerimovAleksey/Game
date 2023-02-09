@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class FightComponent : MonoBehaviour
 {
+	[SerializeField] private CubeData cubeStats;
+	[SerializeField] private CanvasInfoComponent _labelInfo;
+
+	private FightComponent _enemyFightComponent;
+	private Renderer _matColor;
+
 	private int _health;
 	private int _damage;
-	[SerializeField] private CubeData cubeStats;
+	private int maxGetDamageValue = 50;
 
 	public int Score = 0;
 
-	private FightComponent _enemyFightComponent;
-
-	private int maxGetDamageValue = 50;
-
 	private void Awake()
 	{
+		_matColor= GetComponent<Renderer>();
 		_health = cubeStats.Health;
 		_damage = cubeStats.Damage;
+		_labelInfo.UpdateScore(Score, _damage);
 	}
 
 	public void DealDamage()
@@ -43,6 +47,9 @@ public class FightComponent : MonoBehaviour
 			_health -= maxGetDamageValue;
 		}
 
+		_labelInfo.UpdateHealthBar(_health);
+		_matColor.material.color = new Color(0, _health / 100f, 0);
+
 		if (_health <= 0)
 		{
 			Destroy(gameObject);
@@ -59,7 +66,10 @@ public class FightComponent : MonoBehaviour
 	private void TakeOneScore()
 	{
 		Score++;
-		_damage += 2;
-		Debug.Log(_damage);
+		if (_damage <= 48)
+		{
+			_damage += 2;
+		}
+		_labelInfo.UpdateScore(Score, _damage);
 	}
 }
