@@ -7,7 +7,6 @@ public class CanvasInfoComponent : MonoBehaviour
 	[SerializeField] private Image _healthBar;
 	[SerializeField] private TextMeshProUGUI _scoreCountLabel;
 
-
 	public void UpdateScore(int score, int damage)
 	{
 		_scoreCountLabel.text = $"{score}    {damage}";

@@ -7,18 +7,17 @@ using UnityEngine.AI;
 public class CubeHunterComponent : MonoBehaviour
 {
 	
-	static int CubeCount = 0;
+	public static int CubeCount;
 
 	public static List<GameObject> CubeList = new List<GameObject>();
 	
 	public int CubeNumber;
-
+	
 	private GameObject _currentTarget;
 	private NavMeshAgent _agent;
 	private FightComponent _thisFightComponent;
 
-	private float _delayAttack = 0.1f;
-	private float _timeRepeatAttack = 2f;
+	private float _attackRate = 1f;
 
 	
 	private void OnEnable()
@@ -26,9 +25,9 @@ public class CubeHunterComponent : MonoBehaviour
 		_agent = GetComponent<NavMeshAgent>();
 		_thisFightComponent= GetComponent<FightComponent>();
 
-		CubeList.Add(gameObject);
-		CubeCount++;
+		CubeCount++; 
 		CubeNumber = CubeCount;
+		CubeList.Add(gameObject);
 	}
 
 	private void Start()
@@ -38,7 +37,7 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private void Update()
 	{
-		if (_currentTarget)
+		if (_currentTarget.activeSelf)
 		{
 			_agent.SetDestination(_currentTarget.transform.position);
 		}
@@ -46,14 +45,21 @@ public class CubeHunterComponent : MonoBehaviour
 		{
 			GetNewTarget();
 		}
-		
 	}
 
 
 
 	private void GetNewTarget()
 	{
-		_currentTarget = CubeList[Random.Range(0, CubeList.Count)];
+		if (CubeList.Count > 0)
+		{
+			_currentTarget = CubeList[Random.Range(0, CubeList.Count)];
+			CancelInvoke();
+		}
+		else
+		{
+			return;
+		}
 		if (_currentTarget == gameObject) // Для повторного выбора цели, если объект выбрал сам себя
 		{
 			Invoke("GetNewTarget", 0.1f);
@@ -65,19 +71,24 @@ public class CubeHunterComponent : MonoBehaviour
 	{
 		if (collision.gameObject == _currentTarget)
 		{
-			var objStats = _currentTarget.GetComponent<FightComponent>();
-			_thisFightComponent.GetEnemyFightComponent(objStats);
+			var enemyObj = _currentTarget;
+			_thisFightComponent.GetEnemyObj(enemyObj); // Здесь начало!!!
+			if (gameObject.activeSelf)
+			{
+				StartCoroutine(DealDamage(_thisFightComponent));
+			}
+		}
+	}
 
-			_thisFightComponent.InvokeRepeating("DealDamage", _delayAttack, _timeRepeatAttack);
-		}
-	}
-	private void OnCollisionExit(Collision collision)
+	private IEnumerator DealDamage(FightComponent _component)
 	{
-		if (collision.gameObject == _currentTarget)
+		if (_component.isActiveAndEnabled)
 		{
-			CancelInvoke();
+			_component.DealDamage();
+			yield return new WaitForSeconds(_attackRate);
 		}
 	}
+
 
 	public Dictionary<int, int> ReturnDictOfCubes()
 	{
@@ -88,7 +99,7 @@ public class CubeHunterComponent : MonoBehaviour
 		{
 			FightComponent objComponent;
 
-			if (CubeList[i] != null)
+			if (CubeList[i] != null && CubeList[i].activeSelf)
 			{
 				objComponent = CubeList[i].GetComponent<FightComponent>();
 				if (!dict.ContainsKey(objComponent.Number))
@@ -99,5 +110,4 @@ public class CubeHunterComponent : MonoBehaviour
 		}
 		return dict;
 	}
-
 }

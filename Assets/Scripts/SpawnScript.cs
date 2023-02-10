@@ -3,8 +3,12 @@ using UnityEngine;
 public class SpawnScript : MonoBehaviour
 {
     [SerializeField] private GameObject _cube;
-    public int NumberOfCubes = 20;
-   
+    public int NumberOfCubes;
+
+	private void Awake()
+	{
+        CubeHunterComponent.CubeCount = -NumberOfCubes;
+	}
 
 	void Start()
     {
@@ -31,8 +35,8 @@ public class SpawnScript : MonoBehaviour
 
 	private void SpawnCube(Vector3 pos)
     {
-        //GameObject newCube = ObjectPool.instance.GetPooledObject();
-        /*
+        GameObject newCube = ObjectPool.instance.GetPooledObject();
+        
         if (newCube != null)
         {
             newCube.transform.position = pos;
@@ -40,11 +44,9 @@ public class SpawnScript : MonoBehaviour
         }
         else
         {
+            _cube.transform.position = pos;
+            Instantiate(_cube);
         }
-        */ // Попытка сделать pool объектов (см. текстовый файл - "Описание к проекту")
-        _cube.transform.position = pos;
-        Instantiate(_cube);
-
 	}
 
     
