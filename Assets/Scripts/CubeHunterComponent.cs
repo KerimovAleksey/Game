@@ -6,13 +6,10 @@ using UnityEngine.AI;
 
 public class CubeHunterComponent : MonoBehaviour
 {
-	
 	public static int CubeCount;
+	public int CubeNumber;
 
 	public static List<GameObject> CubeList = new List<GameObject>();
-	
-	public int CubeNumber;
-	
 	private GameObject _currentTarget;
 	private NavMeshAgent _agent;
 	private FightComponent _thisFightComponent;
@@ -37,6 +34,10 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private void Update()
 	{
+		if (CubeList.Count <= CubeCount + 1)
+		{
+
+		}
 		if (_currentTarget.activeSelf)
 		{
 			_agent.SetDestination(_currentTarget.transform.position);
