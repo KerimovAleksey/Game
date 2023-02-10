@@ -7,8 +7,7 @@ public class FightComponent : MonoBehaviour
 	[SerializeField] private CanvasInfoComponent _labelInfo;
 	[SerializeField] private CubeHunterComponent _cubeNumber;
 
-
-	private FightComponent _enemyFightComponent;
+	private GameObject _currentEnemy;
 	private Renderer _matColor;
 
 	public int Number;
@@ -21,22 +20,27 @@ public class FightComponent : MonoBehaviour
 
 	private void Awake()
 	{
-		
-		_matColor= GetComponent<Renderer>();
+		_matColor = gameObject.GetComponent<Renderer>();
+	}
+
+	private void OnEnable()
+	{
 		_health = cubeStats.Health;
 		_damage = cubeStats.Damage;
+
 		_labelInfo.UpdateScore(Score, _damage);
-	}
-	private void Start()
-	{
+		_labelInfo.UpdateHealthBar(_health);
+
 		Number = _cubeNumber.CubeNumber;
+
+		_matColor.material.color = new Color(0, _health / 100f, 0);
 	}
 
 	public void DealDamage()
 	{
-		if (_enemyFightComponent)
+		if (_currentEnemy.activeSelf)
 		{
-			bool killed = _enemyFightComponent.GetDamage(_damage);
+			bool killed = _currentEnemy.GetComponent<FightComponent>().GetDamage(_damage);
 			if (killed == true)
 			{
 				TakeOneScore();
@@ -60,16 +64,16 @@ public class FightComponent : MonoBehaviour
 
 		if (_health <= 0)
 		{
-			Destroy(gameObject);
-			//gameObject.SetActive(false); // Попытка сделать pool объектов (см. текстовый файл - "Описание к проекту")
+			CubeHunterComponent.CubeList.Remove(gameObject);
+			gameObject.SetActive(false);
 			return true;
 		}
 		return false;
 	}
 
-	public void GetEnemyFightComponent(FightComponent _enemyComponent)
+	public void GetEnemyObj(GameObject _enemyObject)
 	{
-		_enemyFightComponent = _enemyComponent;
+		_currentEnemy = _enemyObject;
 	}
 
 	private void TakeOneScore()

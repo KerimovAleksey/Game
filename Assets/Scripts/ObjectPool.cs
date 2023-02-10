@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ObjectPool : MonoBehaviour
 {
-	/*
+	
     public static ObjectPool instance;
 
 	private List<GameObject> pooledObjects = new List<GameObject>();
@@ -19,11 +20,12 @@ public class ObjectPool : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	private void OnEnable()
 	{
 		for (int i = 0; i < amountToPool; i++)
 		{
 			GameObject obj = Instantiate(_cubePrefab);
+
 			obj.SetActive(false);
 			pooledObjects.Add(obj);
 		}
@@ -40,5 +42,5 @@ public class ObjectPool : MonoBehaviour
 		}
 		return null;
 	}
-	*/// Попытка сделать pool объектов (см. текстовый файл - "Описание к проекту")
+	
 }
