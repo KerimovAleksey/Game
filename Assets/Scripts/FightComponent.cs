@@ -27,6 +27,7 @@ public class FightComponent : MonoBehaviour
 	{
 		_health = cubeStats.Health;
 		_damage = cubeStats.Damage;
+		Score = 0;
 
 		_labelInfo.UpdateScore(Score, _damage);
 		_labelInfo.UpdateHealthBar(_health);
