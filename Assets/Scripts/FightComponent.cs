@@ -34,7 +34,7 @@ public class FightComponent : MonoBehaviour
 
 		Number = _cubeNumber.CubeNumber;
 
-		_matColor.material.color = new Color(0, _health / 100f, 0);
+		SetColor();
 	}
 
 	public void DealDamage()
@@ -61,7 +61,7 @@ public class FightComponent : MonoBehaviour
 		}
 
 		_labelInfo.UpdateHealthBar(_health);
-		_matColor.material.color = new Color(0, _health / 100f, 0);
+		SetColor();
 
 		if (_health <= 0)
 		{
@@ -85,7 +85,11 @@ public class FightComponent : MonoBehaviour
 			_damage += 2;
 		}
 		_labelInfo.UpdateScore(Score, _damage);
-		
+	}
+
+	private void SetColor()
+	{
+		_matColor.material.color = new Color(0, _health / 100f, 0);
 	}
 
 }
