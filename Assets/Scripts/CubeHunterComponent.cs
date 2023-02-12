@@ -34,10 +34,6 @@ public class CubeHunterComponent : MonoBehaviour
 
 	private void Update()
 	{
-		if (CubeList.Count <= CubeCount + 1)
-		{
-
-		}
 		if (_currentTarget.activeSelf)
 		{
 			_agent.SetDestination(_currentTarget.transform.position);
